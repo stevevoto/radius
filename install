@@ -1,0 +1,15 @@
+#Download and install the Ubuntu 18.0.4 located here https://releases.ubuntu.com/18.04/ubuntu-18.04.6-desktop-amd64.iso.
+#ssh to your device with your username/passwd and sudu su to root 
+#Connect your Desktop to the internet and make sure DNS is configured properly
+sudo apt-y update
+sudo apt-get install -y openssh-server
+sudo apt-get install -y git curl wget
+wget https://lancelot.netknights.it/NetKnights-Release.asc
+gpg --with-fingerprint NetKnights-Release.asc
+gpg --import --import-options show-only --with-fingerprint NetKnights-Release.asc
+apt-key add NetKnights-Release.asc
+add-apt-repository http://lancelot.netknights.it/community/focal/stable
+apt -y update
+apt install -y privacyidea-apache2
+apt-get install -y privacyidea-radius
+pi-manage admin add superuser
