@@ -1,3 +1,4 @@
+#You will need to purchase a YUBI key for access. This can be purchased on Amazon.  YubiKey 5 NFC
 #Download and install the Ubuntu 18.0.4 located here https://releases.ubuntu.com/18.04/ubuntu-18.04.6-desktop-amd64.iso.
 #ssh to your device with your username/passwd and sudu su to root 
 #Connect your Desktop to the internet and make sure DNS is configured properly
@@ -13,3 +14,6 @@ apt -y update
 apt install -y privacyidea-apache2
 apt-get install -y privacyidea-radius
 pi-manage admin add superuser
+#Provide a Password of choice
+#login to your server https://x.x.x.x
+#user=superuser / password=yourpassword
