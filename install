@@ -21,7 +21,7 @@ apt-get install -y privacyidea-radius
 #######Configure Radius Client Request /etc/freeradius/3.0######
 echo "What network or client ip will your Radius Server be on? (i.e 10.0.0.0/16)"
 read ipaddress
-echo "What password do you want for your Radius Server?  (i.e testing123)""
+echo "What password do you want for your Radius Server?  (i.e testing123)"
 read password
 echo "client b5-lab-network-1 {
         ipaddr          = $ipaddress
