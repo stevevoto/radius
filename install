@@ -1,7 +1,10 @@
-#You will need to purchase a YUBI key for access. This can be purchased on Amazon.  YubiKey 5 NFC
+#!/bin/bash
 #Download and install the Ubuntu 18.0.4 located here https://releases.ubuntu.com/18.04/ubuntu-18.04.6-desktop-amd64.iso.
-#ssh to your device with your username/passwd and sudu su to root 
+#ssh to your device with your username/passwd and sudu su to root
 #Connect your Desktop to the internet and make sure DNS is configured properly
+
+
+######Setup Radius Server
 sudo apt-y update
 sudo apt-get install -y openssh-server
 sudo apt-get install -y git curl wget
@@ -13,7 +16,45 @@ add-apt-repository http://lancelot.netknights.it/community/focal/stable
 apt -y update
 apt install -y privacyidea-apache2
 apt-get install -y privacyidea-radius
+
+
+#######Configure Radius Client Request /etc/freeradius/3.0######
+echo "What network or client ip will your Radius Server be on? (i.e 10.0.0.0/16)"
+read ipaddress
+echo "What password do you want for your Radius Server?  (i.e testing123)""
+read password
+echo "client b5-lab-network-1 {
+        ipaddr          = $ipaddress
+        secret          = $password
+}" >> /etc/freeradius/3.0/clients.conf
+
+##Future removal of radius clients
+#sed -i '/client b5-lab-network-1 {/,+3 d' clients.conf
+#grep -A 3 'client.*{' clients.conf
+
+# -----ADD RADIUS USER-------------------------------------------------------------
+# Must be root user
+if [ $(id -u) -eq 0 ]; then
+        read -p "Enter Radius Client username : " username
+        read -s -p "Enter password : " password
+        egrep "^$username" /etc/passwd >/dev/null
+        if [ $? -eq 0 ]; then
+                echo "$username exists!"
+                exit 1
+        else
+                pass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
+                useradd -m -p "$pass" "$username"
+                [ $? -eq 0 ] && echo "User has been added to system!" || echo "Failed to add a user!"
+        fi
+else
+        echo "Only root may add a user to the system."
+        exit 2
+fi
+
+usermod --shell /bin/bash $username
+
+echo "Radius Https://host_ip login id 'superuser'"
+echo "create a password for superuser:"
 pi-manage admin add superuser
-#Provide a Password of choice
-#login to your server https://x.x.x.x
-#user=superuser / password=yourpassword
+
+echo "You should now login to your https://host_ip with user=superuser and new password:"
