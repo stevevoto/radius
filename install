@@ -12,7 +12,7 @@ wget https://lancelot.netknights.it/NetKnights-Release.asc
 gpg --with-fingerprint NetKnights-Release.asc
 gpg --import --import-options show-only --with-fingerprint NetKnights-Release.asc
 apt-key add NetKnights-Release.asc
-#add-apt-repository http://lancelot.netknights.it/community/focal/stable
+add-apt-repository http://lancelot.netknights.it/community/focal/stable
 apt -y update
 apt install -y privacyidea-apache2
 apt-get install -y privacyidea-radius
